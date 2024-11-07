@@ -1,14 +1,31 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import "./App.css";
 
-function App() {
-  const [count, setCount] = useState(0);
+import Header from "./components/Header.jsx";
+import CreatePost from './components/CreatePost.jsx';
+import PostCardList from './components/PostCardList.jsx';
 
+
+
+function App() {
   return (
     <>
-      <h2>Heeellloo</h2>
+      {/* // STARTPAGE */}
+      <header>
+        <Header />
+      </header>
+      
+      <main>
+        <aside>
+          <CreatePost />
+        </aside>
+        
+        <section>
+        <PostCardList />
+        </section>
+        
+      </main>
+
+     
     </>
   );
 }
