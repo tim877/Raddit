@@ -7,12 +7,11 @@ import PostCardList from "./components/PostCardList.jsx";
 function App() {
   return (
     <>
-      <h2>hello</h2>
       {/* // STARTPAGE */}
       <header>
         <Header />
       </header>
-
+      hello
       <main>
         <aside>
           <CreatePost />
