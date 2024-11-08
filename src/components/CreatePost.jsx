@@ -4,4 +4,6 @@ import "../styles/styleCreatePost.css";
 //   return (<></>);
 // }
 
-export default CreatePost;
+export default function CreatePost() {
+  return;
+}
