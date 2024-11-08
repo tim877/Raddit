@@ -11,7 +11,7 @@ function App() {
       <header>
         <Header />
       </header>
-      hello
+
       <main>
         <aside>
           <CreatePost />
