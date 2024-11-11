@@ -1,13 +1,20 @@
 import "./App.css";
+import { useEffect, useState } from "react";
+import { getAllUsers } from "./api/users";
 
 import Header from "./components/Header.jsx";
 import CreatePost from "./components/CreatePost.jsx";
 import PostCardList from "./components/PostCardList.jsx";
 
 function App() {
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    getAllUsers().then(setUsers);
+  }, []);
+
   return (
     <>
-      <h2>hello</h2>
       {/* // STARTPAGE */}
       <header>
         <Header />
@@ -19,7 +26,7 @@ function App() {
         </aside>
 
         <section>
-          <PostCardList />
+          <PostCardList users={users} />
         </section>
       </main>
     </>
