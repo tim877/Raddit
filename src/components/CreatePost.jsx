@@ -1,4 +1,3 @@
-// CreatePost.jsx
 import "../styles/styleCreatePost.css";
 import React, { useState, useEffect } from "react";
 
@@ -6,6 +5,7 @@ export default function CreatePost({ onPostCreated }) {
   const [selectedTitle, setSelectedTitle] = useState("");
   const [selectedBody, setSelectedBody] = useState("");
   const [selectedUser, setSelectedUser] = useState("");
+  const [selectedUsername, setSelectedUsername] = useState("");
   const [users, setUsers] = useState([]);
   const [posts, setPosts] = useState([]);
   const [selectedTags, setSelectedTags] = useState([]);
@@ -30,32 +30,38 @@ export default function CreatePost({ onPostCreated }) {
       .catch((error) => console.error("Error fetching posts:", error));
   }, []);
 
-  // Jämför userId från de olika objekten och hämtar data från den som matchar.
+  // Jämför id från de olika objekten och hämtar data från den som matchar.
   useEffect(() => {
     if (selectedUser) {
-      // .find() är en inbyggd funktion som letar efter första objektet i listan som matchar ens argument
+      const matchingUser = users.find(
+        (user) => user.id === parseInt(selectedUser)
+      ); // Hitta användaren baserat på ID
+      if (matchingUser) {
+        setSelectedUsername(
+          `${matchingUser.firstName} ${matchingUser.lastName}`
+        ); // Sätt fullständigt namn för användaren
+      }
+
       const matchingPost = posts.find(
-        // Använder inbyggda funktionen parseInt() för att omvandla selectedUser till ett heltal, för att kunna jämföra det med uderId.
-        (post) => post.userId === parseInt(selectedUser)
+        (post) => post.id === parseInt(selectedUser)
       );
-      // Om en match hittas kommer de olika fältens värde ändras till den matchande postens innehåll.
       if (matchingPost) {
         setSelectedTitle(matchingPost.title);
         setSelectedBody(matchingPost.body);
         setSelectedTags(matchingPost.tags || []);
       }
     }
-  }, [selectedUser, posts]);
+  }, [selectedUser, posts, users]); // Lägg till users i beroenden för att alltid få uppdaterad info
 
   // Funktion som körs vid formulärets onSubmit
   const handleNewPostSubmit = (event) => {
-    event.preventDefault(); // <-- Förhindrar att sidan laddas om efter submit, gör detta för att formuläret inte skickas till en server utan handteras lokalt.
+    event.preventDefault(); // Förhindrar att sidan laddas om efter submit
 
     // Skapar objektet för det nya inlägget
     const newPost = {
       title: selectedTitle,
       body: selectedBody,
-      username: selectedUser,
+      username: selectedUsername, // Använd användarens fullständiga namn
       reactions: 0,
       tags: selectedTags,
     };
@@ -63,11 +69,11 @@ export default function CreatePost({ onPostCreated }) {
     // Anropa funktionen från props med det nya inlägget
     onPostCreated(newPost);
 
-    // Tömmer fälten efter submit
-    setSelectedTitle("");
-    setSelectedBody("");
-    setSelectedUser("");
-    setSelectedTags([]);
+    // Tömmer fälten efter submit och resetar användaren
+    setSelectedTitle(""); // Tömmer titel
+    setSelectedBody(""); // Tömmer body
+    setSelectedTags([]); // Tömmer tags
+    setSelectedUser(""); // Återställ användare till inget vald
   };
 
   return (
