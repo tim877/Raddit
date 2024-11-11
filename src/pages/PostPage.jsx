@@ -18,6 +18,7 @@ export default function PostPage() {
         
         <section>
             <CommentList />
+            <Comment />
         </section>
         
       </article>

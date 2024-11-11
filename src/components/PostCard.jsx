@@ -1,4 +1,5 @@
 import "../styles/stylePostCard.css";
+import CreateCommentButton from "./CreateCommentButton";
 
 export default function PostCard({ post, user }) {
   return (
@@ -16,6 +17,7 @@ export default function PostCard({ post, user }) {
         {/* Likes måste vara vara dynamisk */}
         <button>{post.reactions.likes}</button>
         <button>Kommentar</button>
+        <CreateCommentButton />
       </article>
     </>
   );
