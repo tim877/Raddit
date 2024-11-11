@@ -1,6 +1,25 @@
 import "../styles/stylePostCard.css";
+import { useState } from "react";
 
 export default function PostCard({ post, user }) {
+  const [reactions, setReactions] = useState({ ...post.reactions });
+
+  function handleLikes() {
+    setReactions((prevReactions) => {
+      return { likes: prevReactions.likes + 1 };
+    });
+  }
+
+  function handleDislikes() {
+    setReactions((prevReactions) => {
+      if (prevReactions > 0) {
+        return { dislikes: prevReactions.dislikes - 1 };
+      } else {
+        return { dislikes: 0 };
+      }
+    });
+  }
+
   return (
     <>
       <article>
@@ -13,8 +32,13 @@ export default function PostCard({ post, user }) {
             <li key={tag}>{tag}</li>
           ))}
         </ol>
+
         {/* Likes måste vara vara dynamisk */}
-        <button>{post.reactions.likes}</button>
+        <button>
+          <span onClick={handleLikes}>+ </span>
+          {reactions.likes}
+          <span onClick={handleDislikes}> -</span>
+        </button>
         <button>Kommentar</button>
       </article>
     </>
