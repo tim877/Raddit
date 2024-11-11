@@ -28,7 +28,7 @@ export default function CreatePost({ onPostCreated }) {
     const newPost = {
       title,
       body,
-      userId: selectedUser,
+      username: selectedUser,
       reactions: 0,
       tags: [],
     };
@@ -36,7 +36,7 @@ export default function CreatePost({ onPostCreated }) {
     // Anropa funktionen från props med det nya inlägget
     onPostCreated(newPost);
 
-    // Töm fälten efter submit
+    // Tömmer fälten efter submit
     setTitle("");
     setBody("");
     setSelectedUser("");
@@ -72,7 +72,7 @@ export default function CreatePost({ onPostCreated }) {
             required>
             <option value="">Select a user</option>
             {users.map((user) => (
-              <option key={user.id} value={user.id}>
+              <option key={user.id} value={user.username}>
                 {user.firstName} {user.lastName}
               </option>
             ))}

@@ -36,7 +36,7 @@ function App() {
               <div key={index}>
                 <h2>{post.title}</h2>
                 <p>{post.body}</p>
-                <p>By user ID: {post.userId}</p>
+                <p>By user: {post.username}</p>
               </div>
             ))}
           </div>
