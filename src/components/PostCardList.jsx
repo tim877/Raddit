@@ -12,7 +12,9 @@ export default function PostCardList({ users }) {
   }, []);
 
   function createPostCard(post) {
-    return <PostCard post={post} />;
+    const user = users.find((user) => user.id === post.userId);
+
+    return <PostCard post={post} user={user} />;
   }
 
   return <>{posts.map(createPostCard)}</>;
