@@ -2,20 +2,39 @@ import "../styles/stylePostCard.css";
 import { useState } from "react";
 
 export default function PostCard({ post, user }) {
-  const [reactions, setReactions] = useState({ ...post.reactions });
+  const [reactions, setReactions] = useState(post.reactions);
+
+  const { likes, dislikes } = reactions;
+
+  let totalReactions;
+
+  if (likes >= dislikes) {
+    totalReactions = likes - dislikes;
+  } else {
+    totalReactions = 0;
+  }
 
   function handleLikes() {
     setReactions((prevReactions) => {
-      return { likes: prevReactions.likes + 1 };
+      return {
+        ...prevReactions,
+        [likes]: prevReactions.likes + 1,
+      };
     });
   }
 
   function handleDislikes() {
     setReactions((prevReactions) => {
-      if (prevReactions > 0) {
-        return { dislikes: prevReactions.dislikes - 1 };
+      if (prevReactions.dislikes > 0) {
+        return {
+          ...prevReactions,
+          [dislikes]: prevReactions.dislikes - 1,
+        };
       } else {
-        return { dislikes: 0 };
+        return {
+          ...prevReactions,
+          [dislikes]: 0,
+        };
       }
     });
   }
@@ -38,6 +57,9 @@ export default function PostCard({ post, user }) {
           <span onClick={handleLikes}>+ </span>
           {reactions.likes}
           <span onClick={handleDislikes}> -</span>
+          {/* <span>+ </span>
+          {totalReactions}
+          <span> -</span> */}
         </button>
         <button>Kommentar</button>
       </article>
