@@ -52,14 +52,10 @@ export default function PostCard({ post, user }) {
           ))}
         </ol>
 
-        {/* Likes måste vara vara dynamisk */}
         <button>
           <span onClick={handleLikes}>+ </span>
-          {reactions.likes}
-          <span onClick={handleDislikes}> -</span>
-          {/* <span>+ </span>
           {totalReactions}
-          <span> -</span> */}
+          <span onClick={handleDislikes}> -</span>
         </button>
         <button>Kommentar</button>
       </article>
