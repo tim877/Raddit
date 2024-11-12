@@ -1,0 +1,17 @@
+aside {
+    border: 1px solid #ddd;
+    padding: 16px;
+    width: 300px;
+  }
+  
+  form div {
+    margin-bottom: 12px;
+  }
+  
+  button {
+    background-color: #007bff;
+    color: white;
+    padding: 8px;
+    border: none;
+    cursor: pointer;
+  }

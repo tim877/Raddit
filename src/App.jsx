@@ -1,3 +1,4 @@
+// App.jsx
 import "./App.css";
 import { useEffect, useState } from "react";
 import { getAllUsers } from "./api/users";
@@ -13,16 +14,40 @@ function App() {
     getAllUsers().then(setUsers);
   }, []);
 
+  const [posts, setPosts] = useState([]);
+
+  // Funktion som hanterar skapandet av nytt inlägg
+  const onPostCreated = (newPost) => {
+    // Uppdaterar tillståndet med det nya inlägget
+    setPosts((prevPosts) => [...prevPosts, newPost]);
+  };
+
+  // Funktion för att hantera nytt inlägg
+  const handleNewPost = (newPost) => {
+    setPosts([...posts, newPost]); // Lägg till det nya inlägget i posts-arrayen
+  };
+
   return (
     <>
-      {/* // STARTPAGE */}
+      <h2>hello</h2>
+      {/* STARTPAGE */}
       <header>
         <Header />
       </header>
 
       <main>
         <aside>
-          <CreatePost />
+          {/* Skicka handleNewPost som prop till CreatePost */}
+          <CreatePost onPostCreated={handleNewPost} />
+          <div>
+            {posts.map((post, index) => (
+              <div key={index}>
+                <h2>{post.title}</h2>
+                <p>{post.body}</p>
+                <p>By user: {post.username}</p>
+              </div>
+            ))}
+          </div>
         </aside>
 
         <section>
