@@ -44,6 +44,7 @@ function App() {
               <div key={index}>
                 <h2>{post.title}</h2>
                 <p>{post.body}</p>
+                <p style={{ textTransform: "capitalize" }}>Tags: {post.tags}</p>
                 <p>By user: {post.username}</p>
               </div>
             ))}

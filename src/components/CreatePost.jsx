@@ -63,7 +63,7 @@ export default function CreatePost({ onPostCreated }) {
       body: selectedBody,
       username: selectedUsername, // Använd användarens fullständiga namn
       reactions: 0,
-      tags: selectedTags,
+      tags: selectedTags.join(" "),
     };
 
     // Anropa funktionen från props med det nya inlägget
