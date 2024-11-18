@@ -2,10 +2,11 @@ import "../styles/stylePostCard.css";
 import { useState } from "react";
 
 export default function PostCard({ post, user }) {
-  const initialVote = 0;
+
+  const initialVote = post.reactions.likes;
   const [vote, setVote] = useState(initialVote);
 
-  const handleUpvote = () => {
+   const handleUpvote = () => {
     setVote((prevVote) => prevVote + 1);
   };
 
@@ -18,43 +19,6 @@ export default function PostCard({ post, user }) {
       }
     });
   };
-
-  // const [reactions, setReactions] = useState(post.reactions);
-
-  // const { likes, dislikes } = reactions;
-
-  // let totalReactions;
-
-  // if (likes >= dislikes) {
-  //   totalReactions = likes - dislikes;
-  // } else {
-  //   totalReactions = 0;
-  // }
-
-  // function handleLikes() {
-  //   setReactions((prevReactions) => {
-  //     return {
-  //       ...prevReactions,
-  //       [likes]: prevReactions.likes + 1,
-  //     };
-  //   });
-  // }
-
-  // function handleDislikes() {
-  //   setReactions((prevReactions) => {
-  //     if (prevReactions.dislikes > 0) {
-  //       return {
-  //         ...prevReactions,
-  //         [dislikes]: prevReactions.dislikes - 1,
-  //       };
-  //     } else {
-  //       return {
-  //         ...prevReactions,
-  //         [dislikes]: 0,
-  //       };
-  //     }
-  //   });
-  // }
 
   return (
     <>
