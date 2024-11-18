@@ -1,102 +1,75 @@
-import React, {useState} from `react`;
+import React, { useState } from "react";
 
-import {
-    Dialog,
-    DialogContent,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger
- } from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { X } from 'lucide-react';
+export default function CommentPopup() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [author, setAuthor] = useState("");
+  const [heading, setHeading] = useState("");
+  const [body, setBody] = useState("");
+  const [tags, setTags] = useState(["", "", ""]);
 
-export default function CommentPopup (){
-    const [auther, setAuthor] = useState ('');
-    const [heading, setHeding] = useState ('');
-    const [body, setBody] = useState ('');
-    const [tags, setTags] = useState (['','','']);
-}
-
-const handelTagChange = (index, value) => {
-    const newTag = [...tags];
+  const handleTagChange = (index, value) => {
+    const newTags = [...tags];
     newTags[index] = value;
     setTags(newTags);
-};
+  };
 
-//If error it might not be "tag.TRIM"
-const handelSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
     console.log({
-        auther, heding, body, tags: tags.filter(tag => tag.trim() !== '')
+      author,
+      heading,
+      body,
+      tags: tags.filter((tag) => tag.trim() !== ""),
     });
-}
+    setIsOpen(false);
+  };
 
-return (
-    <Dialog>
-      <DialogTrigger >
-        <Button>Add Comment</Button>
-      </DialogTrigger>
-      <DialogContent >
-        <DialogHeader>
-          <DialogTitle>Add New Comment</DialogTitle>
-        </DialogHeader>
+  return (
+    <div>
+      <button onClick={() => setIsOpen(true)}>Add Comment</button>
+
+      {isOpen && (
         <div>
           <div>
-            <label htmlFor="author" className="text-right">
-              Author
-            </label>
-            <Input
-              id="author"
-              value={author}
-              onChange={(e) => setAuthor(e.target.value)}
-              className="col-span-3"
-            />
-          </div>
-          <div >
-            <label htmlFor="heading" className="text-right">
-              Heading
-            </label>
-            <Input
-              id="heading"
-              value={heading}
-              onChange={(e) => setHeading(e.target.value)}
-              className="col-span-3"
-            />
-          </div>
-          <div >
-            <label htmlFor="body" className="text-right">
-              Body
-            </label>
-            <Textarea
-              id="body"
-              value={body}
-              onChange={(e) => setBody(e.target.value)}
-              className="col-span-3"
-            />
-          </div>
-          <div >
-            <label>Tags</label>
             <div>
-              {tags.map((tag, index) => (
-                <Input
-                  key={index}
-                  value={tag}
-                  onChange={(e) => handleTagChange(index, e.target.value)}
-                  placeholder={`Tag ${index + 1}`}
-                />
-              ))}
+              <h2>Add New Comment</h2>
+              <button onClick={() => setIsOpen(false)}>✕</button>
             </div>
+            <form onSubmit={handleSubmit}>
+              <div>
+                <label>Author</label>
+                <input type="text" value={author} onChange={(e) => setAuthor(e.target.value)} required />
+              </div>
+              <div>
+                <label>Heading</label>
+                <input type="text" value={heading} onChange={(e) => setHeading(e.target.value)} required />
+              </div>
+              <div>
+                <label>Body</label>
+                <textarea value={body} onChange={(e) => setBody(e.target.value)} rows="4" required />
+              </div>
+              <div>
+                <label>Tags</label>
+                {tags.map((tag, index) => (
+                  <input
+                    key={index}
+                    type="text"
+                    value={tag}
+                    onChange={(e) => handleTagChange(index, e.target.value)}
+                    placeholder={`Tag ${index + 1}`}
+                  />
+                ))}
+              </div>
+              <div>
+                <button type="button" onClick={() => setIsOpen(false)}>
+                  Cancel
+                </button>
+                <button type="submit">Submit</button>
+              </div>
+            </form>
           </div>
         </div>
-        <div >
-          <Button 
-            variant="outline" 
-            onClick={handleSubmit}
-          >
-            Submit
-          </Button>
-        </div>
-      </DialogContent>
-    </Dialog>
+      )}
+    </div>
   );
+}
