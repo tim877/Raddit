@@ -10,23 +10,19 @@ export default function CreatePost({ onPostCreated }) {
   const [posts, setPosts] = useState([]);
   const [selectedTags, setSelectedTags] = useState([]);
 
-  // Hämtar användare från API när komponenten laddas
+  // Hämtar användare från API
   useEffect(() => {
     fetch("https://dummyjson.com/users")
       .then((res) => res.json())
-      .then((data) => {
-        setUsers(data.users);
-      })
+      .then((data) => setUsers(data.users))
       .catch((error) => console.error("Error fetching users:", error));
   }, []);
 
-  // Hämtar inlägg från API när komponenten laddas
+  // Hämtar inlägg från API
   useEffect(() => {
     fetch("https://dummyjson.com/posts")
       .then((res) => res.json())
-      .then((data) => {
-        setPosts(data.posts);
-      })
+      .then((data) => setPosts(data.posts))
       .catch((error) => console.error("Error fetching posts:", error));
   }, []);
 
@@ -46,12 +42,12 @@ export default function CreatePost({ onPostCreated }) {
         (post) => post.id === parseInt(selectedUser)
       );
       if (matchingPost) {
-        setSelectedTitle(matchingPost.title);
-        setSelectedBody(matchingPost.body);
-        setSelectedTags(matchingPost.tags || []);
+        setSelectedTitle(matchingPost.title || "");
+        setSelectedBody(matchingPost.body || "");
+        setSelectedTags(matchingPost.tags?.join(", ") || "");
       }
     }
-  }, [selectedUser, posts, users]); // Lägg till users i beroenden för att alltid få uppdaterad info
+  }, [selectedUser, posts, users]);
 
   // Funktion som körs vid formulärets onSubmit
   const handleNewPostSubmit = (event) => {
@@ -63,7 +59,7 @@ export default function CreatePost({ onPostCreated }) {
       body: selectedBody,
       username: selectedUsername, // Använd användarens fullständiga namn
       reactions: 0,
-      tags: selectedTags.join(" "),
+      tags: selectedTags.split(",").map((tag) => tag.trim()), // Delar upp taggarna i en array
     };
 
     // Anropa funktionen från props med det nya inlägget
@@ -80,6 +76,7 @@ export default function CreatePost({ onPostCreated }) {
     <aside>
       <h3>Create New Post</h3>
       <form onSubmit={handleNewPostSubmit}>
+        {/* Välj användare */}
         <div>
           <label>User</label>
           <select
@@ -94,18 +91,39 @@ export default function CreatePost({ onPostCreated }) {
             ))}
           </select>
         </div>
+
+        {/* Titel */}
         <div>
           <label>Title</label>
-          <input type="text" value={selectedTitle} disabled />
+          <input
+            type="text"
+            value={selectedTitle}
+            onChange={(event) => setSelectedTitle(event.target.value)}
+            required
+          />
         </div>
+
+        {/* Body */}
         <div>
           <label>Body</label>
-          <textarea value={selectedBody} disabled />
+          <textarea
+            value={selectedBody}
+            onChange={(event) => setSelectedBody(event.target.value)}
+            required
+          />
         </div>
+
+        {/* Tags */}
         <div>
           <label>Tags</label>
-          <input type="text" value={selectedTags.join(", ")} disabled />
+          <input
+            type="text"
+            value={selectedTags}
+            onChange={(event) => setSelectedTags(event.target.value)}
+            placeholder="Separate tags with commas"
+          />
         </div>
+
         <button type="submit">Create Post</button>
       </form>
     </aside>
