@@ -29,18 +29,12 @@ export default function CreatePost({ onPostCreated }) {
   // Jämför id från de olika objekten och hämtar data från den som matchar.
   useEffect(() => {
     if (selectedUser) {
-      const matchingUser = users.find(
-        (user) => user.id === parseInt(selectedUser)
-      ); // Hitta användaren baserat på ID
+      const matchingUser = users.find((user) => user.id === parseInt(selectedUser)); // Hitta användaren baserat på ID
       if (matchingUser) {
-        setSelectedUsername(
-          `${matchingUser.firstName} ${matchingUser.lastName}`
-        ); // Sätt fullständigt namn för användaren
+        setSelectedUsername(`${matchingUser.firstName} ${matchingUser.lastName}`); // Sätt fullständigt namn för användaren
       }
 
-      const matchingPost = posts.find(
-        (post) => post.id === parseInt(selectedUser)
-      );
+      const matchingPost = posts.find((post) => post.id === parseInt(selectedUser));
       if (matchingPost) {
         setSelectedTitle(matchingPost.title || "");
         setSelectedBody(matchingPost.body || "");
@@ -79,10 +73,7 @@ export default function CreatePost({ onPostCreated }) {
         {/* Välj användare */}
         <div>
           <label>User</label>
-          <select
-            value={selectedUser}
-            onChange={(event) => setSelectedUser(event.target.value)}
-            required>
+          <select value={selectedUser} onChange={(event) => setSelectedUser(event.target.value)} required>
             <option value="">Select a user</option>
             {users.map((user) => (
               <option key={user.id} value={user.id}>
@@ -95,22 +86,13 @@ export default function CreatePost({ onPostCreated }) {
         {/* Titel */}
         <div>
           <label>Title</label>
-          <input
-            type="text"
-            value={selectedTitle}
-            onChange={(event) => setSelectedTitle(event.target.value)}
-            required
-          />
+          <input type="text" value={selectedTitle} onChange={(event) => setSelectedTitle(event.target.value)} required />
         </div>
 
         {/* Body */}
         <div>
           <label>Body</label>
-          <textarea
-            value={selectedBody}
-            onChange={(event) => setSelectedBody(event.target.value)}
-            required
-          />
+          <textarea value={selectedBody} onChange={(event) => setSelectedBody(event.target.value)} required />
         </div>
 
         {/* Tags */}
