@@ -1,7 +1,7 @@
 import "../styles/stylePostCardList.css";
 import PostCard from "./PostCard.jsx";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useRecoilState } from "recoil";
 
 import { getAllPosts } from "../api/posts.js";
