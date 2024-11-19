@@ -1,27 +1,27 @@
 // App.jsx
 import "./App.css";
-import { useEffect, useState } from "react";
-import { getAllUsers } from "./api/users";
-import { atom, selector, useRecoilState } from "recoil";
+// import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import Header from "./components/Header.jsx";
 import CreatePost from "./components/CreatePost.jsx";
 import PostCardList from "./components/PostCardList.jsx";
 
 function App() {
-  const [users, setUsers] = useState([]);
 
-  useEffect(() => {
-    getAllUsers().then(setUsers);
-  }, []);
+  // const [users, setUsers] = useState([]);
+
+  // useEffect(() => {
+  //   getAllUsers().then(setUsers);
+  // }, []);
 
   const [posts, setPosts] = useState([]);
 
   // Funktion som hanterar skapandet av nytt inlägg
-  const onPostCreated = (newPost) => {
-    // Uppdaterar tillståndet med det nya inlägget
-    setPosts((prevPosts) => [...prevPosts, newPost]);
-  };
+  // const onPostCreated = (newPost) => {
+  //   // Uppdaterar tillståndet med det nya inlägget
+  //   setPosts((prevPosts) => [...prevPosts, newPost]);
+  // };
 
   // Funktion för att hantera nytt inlägg
   const handleNewPost = (newPost) => {
@@ -40,7 +40,7 @@ function App() {
         <aside>
           {/* Skicka handleNewPost som prop till CreatePost */}
           <CreatePost onPostCreated={handleNewPost} />
-          <div>
+          {/* <div>
             {posts.map((post, index) => (
               <div key={index}>
                 <h2>{post.title}</h2>
@@ -49,11 +49,12 @@ function App() {
                 <p>By user: {post.username}</p>
               </div>
             ))}
-          </div>
+          </div> */}
         </aside>
 
         <section>
-          <PostCardList users={users} />
+          {/* <PostCardList users={users} /> */}
+          <PostCardList />
         </section>
       </main>
     </>

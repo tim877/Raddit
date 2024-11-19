@@ -2,14 +2,24 @@ import "../styles/stylePostCardList.css";
 import PostCard from "./PostCard.jsx";
 
 import { useEffect, useState } from "react";
-import { getAllPosts } from "../api/posts";
+import { useRecoilState } from "recoil";
 
-export default function PostCardList({ users }) {
-  const [posts, setPosts] = useState([]);
+import { getAllPosts } from "../api/posts.js";
+import { postsState } from "../atoms/posts.jsx";
+
+import { getAllUsers } from "../api/users.js";
+import { usersState } from "../atoms/users.jsx";
+
+
+export default function PostCardList() {
+
+  const [posts, setPosts] = useRecoilState(postsState);
+  const [users, setUsers] = useRecoilState(usersState);
 
   useEffect(() => {
     getAllPosts().then(setPosts);
-  }, []);
+    getAllUsers().then(setUsers);
+  }, [])
 
   function createPostCard(post) {
     const user = users.find((user) => user.id === post.userId);
