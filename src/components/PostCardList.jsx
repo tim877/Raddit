@@ -11,7 +11,7 @@ import { getAllUsers } from "../api/users.js";
 import { usersState } from "../atoms/users.jsx";
 
 
-export default function PostCardList() {
+export default function PostCardList({setPage, setPageData}) {
 
   const [posts, setPosts] = useRecoilState(postsState);
   const [users, setUsers] = useRecoilState(usersState);
@@ -24,7 +24,7 @@ export default function PostCardList() {
   function createPostCard(post) {
     const user = users.find((user) => user.id === post.userId);
 
-    return <PostCard post={post} user={user} />;
+    return <PostCard post={post} user={user} setPage={setPage} setPageData={setPageData} />;
   }
 
   return <>{posts.map(createPostCard)}</>;
