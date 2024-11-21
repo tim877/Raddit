@@ -7,7 +7,7 @@ export default function PostCard({ post, user }) {
   const initialVote = post.reactions.likes;
   const [vote, setVote] = useState(initialVote);
 
-   const handleUpvote = () => {
+  const handleUpvote = () => {
     setVote((prevVote) => prevVote + 1);
   };
 
@@ -39,8 +39,10 @@ export default function PostCard({ post, user }) {
           {vote}
           <span onClick={handleDownvote}> -</span>
         </button>
-        <CreateComment />
-        </article>
+        <button onClick={handleCommentClick} className="comment-button">
+          Lägg till kommentar
+        </button>
+      </article>
     </>
   );
 }

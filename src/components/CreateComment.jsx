@@ -50,10 +50,6 @@ const CreateComment = ({ post, user }) => {
 
   return (
     <div>
-      {/* Kommentar-knappen */}
-      <button onClick={handleCommentClick} className="comment-button">
-        Lägg till kommentar
-      </button>
 
       {showForm && (
         <div className="popup">
