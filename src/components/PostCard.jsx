@@ -2,7 +2,7 @@ import "../styles/stylePostCard.css";
 import { useState } from "react";
 import CreateComment from "./CreateComment";
 
-export default function PostCard({ post, user, onCommentClick }) {
+export default function PostCard({ post, user }) {
 
   const initialVote = post.reactions.likes;
   const [vote, setVote] = useState(initialVote);
