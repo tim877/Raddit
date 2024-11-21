@@ -72,7 +72,7 @@ const CreateComment = ({ post, user }) => {
             </div>
             <div>
               <label>
-                Titel:
+                Rubrik:
                 <input
                   type="text"
                   name="title"
@@ -84,7 +84,7 @@ const CreateComment = ({ post, user }) => {
             </div>
             <div>
               <label>
-                Body text:
+                Kommentar:
                 <textarea
                   name="body"
                   value={formData.body}
