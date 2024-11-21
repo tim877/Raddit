@@ -1,7 +1,8 @@
 import "../styles/stylePostCard.css";
 import { useState } from "react";
+import CreateComment from "./CreateComment";
 
-export default function PostCard({ post, user }) {
+export default function PostCard({ post, user, onCommentClick }) {
 
   const initialVote = post.reactions.likes;
   const [vote, setVote] = useState(initialVote);
@@ -38,8 +39,8 @@ export default function PostCard({ post, user }) {
           {vote}
           <span onClick={handleDownvote}> -</span>
         </button>
-        <button>Kommentar</button>
-      </article>
+        <CreateComment />
+        </article>
     </>
   );
 }
