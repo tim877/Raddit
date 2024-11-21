@@ -104,7 +104,6 @@ const CreateComment = ({ post, user }) => {
                       value={formData.tags[index]}
                       onChange={(e) => handleTagChange(index, e.target.value)}
                       placeholder={`Tagg ${index + 1}`}
-                      required
                     />
                   ))}
                 </div>
@@ -121,10 +120,10 @@ const CreateComment = ({ post, user }) => {
       <div className="comment-list">
         {comments.map((comment) => (
           <div key={comment.id} className="comment">
-            <h3>{comment.title}</h3>
             <p>
               <strong>{comment.username}</strong>
             </p>
+            <h3>{comment.title}</h3>
             <p>{comment.body}</p>
             <p>Taggar: {comment.tags.join(", ")}</p>
           </div>
