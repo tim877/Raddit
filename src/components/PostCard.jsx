@@ -34,12 +34,14 @@ export default function PostCard({ post, user }) {
           ))}
         </ol>
 
-        <button>
+        <div className="button-comment-container">
+        <button className="vote">
           <span onClick={handleUpvote}>+ </span>
           {vote}
           <span onClick={handleDownvote}> -</span>
         </button>
         <CreateComment />
+      </div>
         </article>
     </>
   );
