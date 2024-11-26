@@ -31,7 +31,7 @@ function App() {
     )
   } else if (page === post_page) {
     content = (
-      <PostPage pageData={pageData}/>
+      <PostPage pageData={pageData} setPage={setPage}/>
     )
   }
 

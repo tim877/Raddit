@@ -7,12 +7,15 @@ import { getAllPosts } from "../api/posts.js";
 import { getAllUsers } from "../api/users.js";
 import { usersState } from "../atoms/users.jsx";
 
+import { home_page } from "../App";
+
 import Header from "../components/Header.jsx";
 import CommentList from "../components/CommentList.jsx";
 
 
+
 //optimera koden, finns nu dubletter av funktionerna handleUpVote och handleDownVote (i denna komponenten och i postCard-komponenten)
-export default function PostPage({pageData}) {
+export default function PostPage({pageData, setPage}) {
 
   const [posts, setPosts] = useRecoilState(postsState);
   const [users, setUsers] = useRecoilState(usersState);
@@ -21,6 +24,10 @@ export default function PostPage({pageData}) {
     getAllPosts().then(setPosts);
     getAllUsers().then(setUsers);
   }, [])
+
+  function navigateToHomePage () {
+    setPage(home_page);
+  }
 
   const post = posts.find((post) => post.id === pageData.postId);
 
@@ -55,7 +62,9 @@ export default function PostPage({pageData}) {
 
       <article>
         <section>
-        <p>{user.username}</p>
+        <div>
+        <button onClick={navigateToHomePage}>Back to homepage</button><p>{user.username}</p>
+        </div>
         <h2>{post.title}</h2>
         <p>{post.body}</p>
 
