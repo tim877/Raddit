@@ -7,6 +7,7 @@ import { getAllPosts } from "../api/posts.js";
 import Header from "../components/Header.jsx";
 import CommentList from "../components/CommentList.jsx";
 
+
 //optimera koden, finns nu dubletter av funktionerna handleUpVote och handleDownVote (i denna komponenten och i postCard-komponenten)
 export default function PostPage({pageData}) {
 
@@ -34,6 +35,7 @@ export default function PostPage({pageData}) {
       }
     });
   };
+
 
 
   return (
