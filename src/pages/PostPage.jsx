@@ -1,8 +1,11 @@
 import { useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
-import { postsState } from "../atoms/posts.jsx";
 
+import { postsState } from "../atoms/posts.jsx";
 import { getAllPosts } from "../api/posts.js";
+
+import { getAllUsers } from "../api/users.js";
+import { usersState } from "../atoms/users.jsx";
 
 import Header from "../components/Header.jsx";
 import CommentList from "../components/CommentList.jsx";
@@ -12,9 +15,11 @@ import CommentList from "../components/CommentList.jsx";
 export default function PostPage({pageData}) {
 
   const [posts, setPosts] = useRecoilState(postsState);
+  const [users, setUsers] = useRecoilState(usersState);
 
   useEffect(() => {
     getAllPosts().then(setPosts);
+    getAllUsers().then(setUsers);
   }, [])
 
   const post = posts.find((post) => post.id === pageData.postId);
@@ -36,6 +41,8 @@ export default function PostPage({pageData}) {
     });
   };
 
+  const user = users.find((user) => user.id === post.userId);
+
 
 
   return (
@@ -48,7 +55,7 @@ export default function PostPage({pageData}) {
 
       <article>
         <section>
-        <p>username</p>
+        <p>{user.username}</p>
         <h2>{post.title}</h2>
         <p>{post.body}</p>
 
