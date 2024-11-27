@@ -13,7 +13,8 @@ export default function PostCard({ post, user, setPage, setPageData }) {
 
   return (
     <>
-      <article onClick={navigateToPostPage}>
+      <article>
+        <div onClick={navigateToPostPage}>
         <p>{user.username}</p>
         <h2>{post.title}</h2>
         <p>{post.body.slice(0, 60)}...</p>
@@ -23,6 +24,7 @@ export default function PostCard({ post, user, setPage, setPageData }) {
             <li key={tag}>{tag}</li>
           ))}
         </ol>
+        </div>
 
         <VoteButton post={post}/>
 
