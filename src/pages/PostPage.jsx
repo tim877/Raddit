@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useRecoilState } from "recoil";
 
 import { postsState } from "../atoms/posts.jsx";
@@ -11,6 +11,7 @@ import { home_page } from "../App";
 
 import Header from "../components/Header.jsx";
 import CommentList from "../components/CommentList.jsx";
+import VoteButton from "../components/VoteButton.jsx";
 
 
 
@@ -31,22 +32,6 @@ export default function PostPage({pageData, setPage}) {
 
   const post = posts.find((post) => post.id === pageData.postId);
 
-  const initialVote = post.reactions.likes;
-  const [vote, setVote] = useState(initialVote);
-
-   const handleUpvote = () => {
-    setVote((prevVote) => prevVote + 1);
-  };
-
-  const handleDownvote = () => {
-    setVote((prevVote) => {
-      if (prevVote > 0) {
-        return prevVote - 1;
-      } else {
-        return 0;
-      }
-    });
-  };
 
   const user = users.find((user) => user.id === post.userId);
 
@@ -74,11 +59,10 @@ export default function PostPage({pageData, setPage}) {
           ))}
         </ol>
 
-        <button>
-          <span onClick={handleUpvote}>+ </span>
-          {vote}
-          <span onClick={handleDownvote}> -</span>
-        </button>
+       
+
+        <VoteButton post={post}/>
+
         <button>Kommentar</button>
         </section>
         

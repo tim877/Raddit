@@ -1,7 +1,7 @@
 import "../styles/stylePostCard.css";
-import { useState } from "react";
-import CreateComment from "./CreateComment";
 import { post_page } from "../App";
+import VoteButton from "./VoteButton";
+import CreateComment from "./CreateComment";
 
 export default function PostCard({ post, user, setPage, setPageData }) {
 
@@ -10,22 +10,6 @@ export default function PostCard({ post, user, setPage, setPageData }) {
     setPage(post_page);
   }
 
-  const initialVote = post.reactions.likes;
-  const [vote, setVote] = useState(initialVote);
-
-   const handleUpvote = () => {
-    setVote((prevVote) => prevVote + 1);
-  };
-
-  const handleDownvote = () => {
-    setVote((prevVote) => {
-      if (prevVote > 0) {
-        return prevVote - 1;
-      } else {
-        return 0;
-      }
-    });
-  };
 
   return (
     <>
@@ -40,15 +24,10 @@ export default function PostCard({ post, user, setPage, setPageData }) {
           ))}
         </ol>
 
-        <div className="button-comment-container">
-        <button className="vote">
-          <span onClick={handleUpvote}>+ </span>
-          {vote}
-          <span onClick={handleDownvote}> -</span>
-        </button>
-        <CreateComment />
-      </div>
-        </article>
+        <VoteButton post={post}/>
+
+        <CreateComment/>
+      </article>
     </>
   );
 }
