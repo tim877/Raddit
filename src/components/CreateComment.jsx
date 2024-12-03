@@ -1,9 +1,8 @@
 import "../styles/styleCreateComment.css";
 import React, { useState } from "react";
 
-const CreateComment = ({ post, user }) => {
+const CreateComment = ({ post, user, showForm, setShowForm }) => {
   const [comments, setComments] = useState([]);
-  const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({
     username: "",
     title: "",
@@ -44,17 +43,8 @@ const CreateComment = ({ post, user }) => {
     });
   };
 
-  const handleCommentClick = () => {
-    setShowForm(true);
-  };
-
   return (
     <div>
-      {/* Kommentar-knappen */}
-      <button onClick={handleCommentClick} className="comment-button">
-        Lägg till kommentar
-      </button>
-
       {showForm && (
         <div className="popup">
           <form onSubmit={handleSubmit}>
