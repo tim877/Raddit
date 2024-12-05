@@ -10,21 +10,35 @@ import { postsState } from "../atoms/posts.jsx";
 import { getAllUsers } from "../api/users.js";
 import { usersState } from "../atoms/users.jsx";
 
-
-export default function PostCardList({setPage, setPageData}) {
-
+export default function PostCardList({ setPage, setPageData }) {
   const [posts, setPosts] = useRecoilState(postsState);
   const [users, setUsers] = useRecoilState(usersState);
 
   useEffect(() => {
-    getAllPosts().then(setPosts);
-    getAllUsers().then(setUsers);
-  }, [])
+    // Ladda poster och användare endast om de är tomma
+    if (posts.length === 0) {
+      getAllPosts().then(setPosts);
+    }
+    if (users.length === 0) {
+      getAllUsers().then(setUsers);
+    }
+  }, [posts, users, setPosts, setUsers]);
 
   function createPostCard(post) {
-    const user = users.find((user) => user.id === post.userId);
+    const user = users.find((user) => user.id === post.userId) || {
+      username: "Unknown User",
+      id: post.userId,
+    };
 
-    return <PostCard post={post} user={user} setPage={setPage} setPageData={setPageData} />;
+    return (
+      <PostCard
+        key={post.id}
+        post={post}
+        user={user}
+        setPage={setPage}
+        setPageData={setPageData}
+      />
+    );
   }
 
   return <>{posts.map(createPostCard)}</>;
