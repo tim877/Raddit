@@ -18,23 +18,55 @@ export default function PostPage({ pageData, setPage }) {
   const [posts, setPosts] = useRecoilState(postsState);
   const [users, setUsers] = useRecoilState(usersState);
 
-  const [showForm, setShowForm] = useState(false); // State to control the comment form visibility
+  const [showForm, setShowForm] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getAllPosts().then(setPosts);
-    getAllUsers().then(setUsers);
-  }, []);
+    const fetchData = async () => {
+      try {
+        // Om poster och användare inte är laddade, hämta dem
+        if (posts.length === 0) {
+          const fetchedPosts = await getAllPosts();
+          const fetchedUsers = await getAllUsers();
 
-  function navigateToHomePage() {
-    setPage(home_page);
+          setPosts(fetchedPosts);
+          setUsers(fetchedUsers);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [posts, setPosts, setUsers]);
+
+  if (loading) {
+    return <div>Loading...</div>;
   }
 
+  // Hitta posten baserat på postId från pageData
   const post = posts.find((post) => post.id === pageData.postId);
-  const user = users.find((user) => user.id === post.userId);
+
+  // Om ingen post hittas, visa ett felmeddelande
+  if (!post) {
+    return (
+      <div>
+        <p>Post not found</p>
+        <button onClick={() => setPage(home_page)}>Back to homepage</button>
+      </div>
+    );
+  }
+
+  // Hitta användaren baserat på userId från posten
+  const user = users.find((user) => user.id === post.userId) || {
+    username: "Unknown User",
+    id: post.userId,
+  };
 
   return (
     <>
-      {/* POSTPAGE */}
       <header>
         <Header />
       </header>
@@ -42,21 +74,22 @@ export default function PostPage({ pageData, setPage }) {
       <article>
         <section>
           <div>
-            <button onClick={navigateToHomePage}>Back to homepage</button>
+            <button onClick={() => setPage(home_page)}>Back to homepage</button>
             <p>{user.username}</p>
           </div>
-          <h2>{post.title}</h2>
-          <p>{post.body}</p>
+          <h2>{post.title || "Untitled Post"}</h2>
+          <p>{post.body || "No content available"}</p>
 
-          <ol>
-            {post.tags.map((tag) => (
-              <li key={tag}>{tag}</li>
-            ))}
-          </ol>
+          {post.tags && post.tags.length > 0 && (
+            <ol>
+              {post.tags.map((tag) => (
+                <li key={tag}>{tag}</li>
+              ))}
+            </ol>
+          )}
 
           <VoteButton post={post} />
 
-          {/* Button to toggle the comment form */}
           <button onClick={() => setShowForm(true)}>Kommentar</button>
         </section>
 
@@ -64,13 +97,14 @@ export default function PostPage({ pageData, setPage }) {
           <CommentList />
         </section>
 
-        {/* The CreateComment component */}
-        <CreateComment
-          post={post}
-          user={user}
-          showForm={showForm}
-          setShowForm={setShowForm}
-        />
+        {post.id && (
+          <CreateComment
+            post={post}
+            user={user}
+            showForm={showForm}
+            setShowForm={setShowForm}
+          />
+        )}
       </article>
     </>
   );
