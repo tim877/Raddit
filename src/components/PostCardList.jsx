@@ -41,5 +41,5 @@ export default function PostCardList({ setPage, setPageData }) {
     );
   }
 
-  return <>{posts.map(createPostCard)}</>;
+  return <div className="post-list">{posts.map(createPostCard)}</div>;
 }

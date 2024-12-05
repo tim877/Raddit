@@ -22,10 +22,14 @@ function App() {
   const [posts] = useRecoilState(postsState);
 
   let content;
+  let showCreatePost;
+
   if (page === home_page) {
     content = <PostCardList setPage={setPage} setPageData={setPageData} />;
+    showCreatePost = true;
   } else if (page === post_page) {
     content = <PostPage pageData={pageData} setPage={setPage} />;
+    showCreatePost = false;
   }
 
   return (
@@ -35,9 +39,11 @@ function App() {
       </header>
 
       <main>
-        <aside>
-          <CreatePost />
-        </aside>
+        {showCreatePost && (
+          <aside>
+            <CreatePost />
+          </aside>
+        )}
 
         <section>{content}</section>
       </main>
