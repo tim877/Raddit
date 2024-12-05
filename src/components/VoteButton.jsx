@@ -1,31 +1,27 @@
-import { useState } from "react";
+import React, { useState } from "react";
 
+export default function VoteButton({ post }) {
+  // Extract reactions safely, default to 0
+  const initialReactions =
+    typeof post?.reactions === "number"
+      ? post.reactions
+      : post?.reactions?.likes || 0;
 
-export default function VoteButton({post}) {
-    
-    const initialVote = post.reactions.likes;
-    const [vote, setVote] = useState(initialVote);
+  const [likes, setLikes] = useState(initialReactions);
 
-    const handleUpvote = () => {
-        setVote((prevVote) => prevVote + 1);
-    };
+  const handleUpvote = () => {
+    setLikes((prevLikes) => prevLikes + 1);
+  };
 
-    const handleDownvote = () => {
-        setVote((prevVote) => {
-        if (prevVote > 0) {
-            return prevVote - 1;
-        } else {
-            return 0;
-        }
-        });
-    };
+  const handleDownvote = () => {
+    setLikes((prevLikes) => Math.max(0, prevLikes - 1));
+  };
 
-    return <> 
-    
-        <button>
-          <span onClick={handleUpvote}>+ </span>
-          {vote}
-          <span onClick={handleDownvote}> -</span>
-        </button>
-    </>
+  return (
+    <div>
+      <button onClick={handleUpvote}>+</button>
+      <span>{likes || 0}</span>
+      <button onClick={handleDownvote}>-</button>
+    </div>
+  );
 }
