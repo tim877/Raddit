@@ -1,83 +1,72 @@
 import "../styles/styleCreatePost.css";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import { useRecoilState } from "recoil";
+import { postsState } from "../atoms/posts.jsx";
+import { usersState } from "../atoms/users.jsx";
 
-export default function CreatePost({ onPostCreated }) {
+export default function CreatePost() {
+  const [posts, setPosts] = useRecoilState(postsState);
+  const [users] = useRecoilState(usersState);
+
   const [selectedTitle, setSelectedTitle] = useState("");
   const [selectedBody, setSelectedBody] = useState("");
   const [selectedUser, setSelectedUser] = useState("");
-  const [selectedUsername, setSelectedUsername] = useState("");
-  const [users, setUsers] = useState([]);
-  const [posts, setPosts] = useState([]);
-  const [selectedTags, setSelectedTags] = useState([]);
+  const [selectedTags, setSelectedTags] = useState("");
 
-  // Hämtar användare från API
-  useEffect(() => {
-    fetch("https://dummyjson.com/users")
-      .then((res) => res.json())
-      .then((data) => setUsers(data.users))
-      .catch((error) => console.error("Error fetching users:", error));
-  }, []);
+  const handleNewPostSubmit = async (event) => {
+    event.preventDefault();
 
-  // Hämtar inlägg från API
-  useEffect(() => {
-    fetch("https://dummyjson.com/posts")
-      .then((res) => res.json())
-      .then((data) => setPosts(data.posts))
-      .catch((error) => console.error("Error fetching posts:", error));
-  }, []);
+    // Hitta den valda användaren
+    const selectedUserObj = users.find(
+      (user) => user.id === parseInt(selectedUser)
+    );
 
-  // Jämför id från de olika objekten och hämtar data från den som matchar.
-  useEffect(() => {
-    if (selectedUser) {
-      const matchingUser = users.find((user) => user.id === parseInt(selectedUser)); // Hitta användaren baserat på ID
-      if (matchingUser) {
-        setSelectedUsername(`${matchingUser.firstName} ${matchingUser.lastName}`); // Sätt fullständigt namn för användaren
-      }
-
-      const matchingPost = posts.find((post) => post.id === parseInt(selectedUser));
-      if (matchingPost) {
-        setSelectedTitle(matchingPost.title || "");
-        setSelectedBody(matchingPost.body || "");
-        setSelectedTags(matchingPost.tags?.join(", ") || "");
-      }
+    if (!selectedUserObj) {
+      alert("Please select a valid user");
+      return;
     }
-  }, [selectedUser, posts, users]);
 
-  // Funktion som körs vid formulärets onSubmit
-  const handleNewPostSubmit = (event) => {
-    event.preventDefault(); // Förhindrar att sidan laddas om efter submit
-
-    // Skapar objektet för det nya inlägget
+    // Skapa nytt inlägg med API-liknande struktur
     const newPost = {
+      id: Date.now(), // Använd timestamp istället för array-längd
       title: selectedTitle,
       body: selectedBody,
-      username: selectedUsername, // Använd användarens fullständiga namn
+      userId: selectedUserObj.id,
+      tags: selectedTags
+        ? selectedTags.split(",").map((tag) => tag.trim())
+        : [],
       reactions: 0,
-      tags: selectedTags.split(",").map((tag) => tag.trim()), // Delar upp taggarna i en array
     };
 
-    // Anropa funktionen från props med det nya inlägget
-    onPostCreated(newPost);
+    try {
+      // Uppdatera global state direkt
+      setPosts((prevPosts) => [...prevPosts, newPost]);
 
-    // Tömmer fälten efter submit och resetar användaren
-    setSelectedTitle(""); // Tömmer titel
-    setSelectedBody(""); // Tömmer body
-    setSelectedTags([]); // Tömmer tags
-    setSelectedUser(""); // Återställ användare till inget vald
+      // Återställ formuläret
+      setSelectedTitle("");
+      setSelectedBody("");
+      setSelectedUser("");
+      setSelectedTags("");
+    } catch (error) {
+      console.error("Error creating post:", error);
+    }
   };
 
   return (
     <aside>
       <h3>Create New Post</h3>
       <form onSubmit={handleNewPostSubmit}>
-        {/* Välj användare */}
+        {/* Användarval */}
         <div>
           <label>User</label>
-          <select value={selectedUser} onChange={(event) => setSelectedUser(event.target.value)} required>
+          <select
+            value={selectedUser}
+            onChange={(event) => setSelectedUser(event.target.value)}
+            required>
             <option value="">Select a user</option>
             {users.map((user) => (
               <option key={user.id} value={user.id}>
-                {user.firstName} {user.lastName}
+                {user.username}
               </option>
             ))}
           </select>
@@ -86,13 +75,22 @@ export default function CreatePost({ onPostCreated }) {
         {/* Titel */}
         <div>
           <label>Title</label>
-          <input type="text" value={selectedTitle} onChange={(event) => setSelectedTitle(event.target.value)} required />
+          <input
+            type="text"
+            value={selectedTitle}
+            onChange={(event) => setSelectedTitle(event.target.value)}
+            required
+          />
         </div>
 
         {/* Body */}
         <div>
           <label>Body</label>
-          <textarea value={selectedBody} onChange={(event) => setSelectedBody(event.target.value)} required />
+          <textarea
+            value={selectedBody}
+            onChange={(event) => setSelectedBody(event.target.value)}
+            required
+          />
         </div>
 
         {/* Tags */}
