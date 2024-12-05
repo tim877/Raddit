@@ -13,6 +13,7 @@ import Header from "../components/Header.jsx";
 import CommentList from "../components/CommentList.jsx";
 import VoteButton from "../components/VoteButton.jsx";
 import CreateComment from "../components/CreateComment.jsx";
+import "../styles/styleArticle.css";
 
 export default function PostPage({ pageData, setPage }) {
   const [posts, setPosts] = useRecoilState(postsState);
@@ -67,13 +68,9 @@ export default function PostPage({ pageData, setPage }) {
 
   return (
     <>
-      <header>
-        <Header />
-      </header>
-
-      <article>
+      <article className="post-article">
         <section>
-          <div>
+          <div className="post-meta">
             <button onClick={() => setPage(home_page)}>Back to homepage</button>
             <p>{user.username}</p>
           </div>
