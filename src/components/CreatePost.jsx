@@ -40,7 +40,7 @@ export default function CreatePost() {
 
     try {
       // Uppdatera global state direkt
-      setPosts((prevPosts) => [...prevPosts, newPost]);
+      setPosts((prevPosts) => [newPost, ...prevPosts]);
 
       // Återställ formuläret
       setSelectedTitle("");
