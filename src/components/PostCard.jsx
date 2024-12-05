@@ -9,25 +9,18 @@ export default function PostCard({ post, user, setPage, setPageData }) {
   }
 
   return (
-    <>
-      <article>
-        <div onClick={navigateToPostPage} style={{ cursor: "pointer" }}>
-          <p>{user.username}</p>
-          <h2>{post.title}</h2>
-          <p>{post.body.slice(0, 60)}...</p>
+    <article>
+      <div onClick={navigateToPostPage} style={{ cursor: "pointer" }}>
+        <p>{user?.username || "Unknown User"}</p>
+        <h2>{post.title}</h2>
+        <p>{post.body.slice(0, 60)}...</p>
 
-          <ol>
-            {post.tags.map((tag) => (
-              <li key={tag}>{tag}</li>
-            ))}
-          </ol>
-        </div>
+        <ol>{post.tags && post.tags.map((tag) => <li key={tag}>{tag}</li>)}</ol>
+      </div>
 
-        <VoteButton post={post} />
+      <VoteButton post={post} />
 
-        {/* Återanvänd navigateToPostPage för Kommentar-knappen */}
-        <button onClick={navigateToPostPage}>Kommentar</button>
-      </article>
-    </>
+      <button onClick={navigateToPostPage}>Kommentar</button>
+    </article>
   );
 }
